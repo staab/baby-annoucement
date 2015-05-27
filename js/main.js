@@ -39,18 +39,20 @@ document.addEventListener("DOMContentLoaded", function () {
             text: "Hello World!",
             method: writeText
         },
+        BLINK_STEP,
         {
-            delay: CURSOR_BLINK,
-            times: 6,
-            method: blinkCursor
+            delay: TEXT_SPEED,
+            text: "This is me when I was a little kid...",
+            method: writeText
         },
+        BLINK_STEP,
     ];
 
     steps2 = [
         BLINK_STEP,
         {
             delay: TEXT_SPEED,
-            text: "My Name is...",
+            text: "My name is...",
             method: writeText,
             reverse: true
         },
@@ -72,19 +74,6 @@ document.addEventListener("DOMContentLoaded", function () {
             method: writeText,
         },
         BLINK_STEP,
-        {
-            delay: TEXT_SPEED,
-            text: "Go congratulate them!",
-            method: function (i) {
-                text.removeClass('no-link');
-                writeText.call(this, i);
-            }
-        },
-        {
-            delay: CURSOR_BLINK,
-            times: 400,
-            method: blinkCursor
-        },
     ];
 
     function processStep(step) {
@@ -98,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (step.reverse) {
             processStep(BLINK_STEP);
-            for (i = times; i > 0; i -= 1) {
+            for (i = times; i >= -1; i -= 1) {
                 totalTime += step.delay;
                 setTimeout(step.method.bind(step, i), totalTime);
             }
@@ -133,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         totalTime += PAGE_TRANSITION;
         setTimeout(function () {
-            $('#title-img').removeClass('title-current');
+            $('#title-img').removeClass('title-current').find('img').attr('src', '/img/baby2.jpg');
             $('#title-text').addClass('title-current');
             text.text('');
         }, totalTime);
@@ -144,5 +133,22 @@ document.addEventListener("DOMContentLoaded", function () {
         }, totalTime);
 
         steps2.forEach(processStep);
+
+        // Show the baby
+        setTimeout(function () {
+            $('#title-text').addClass('title-previous');
+            $('#title-img').removeClass('title-previous').addClass('title-next');
+        }, totalTime);
+
+        totalTime += PAGE_TRANSITION;
+        setTimeout(function () {
+            $('#title-text').removeClass('title-current');
+            $('#title-img').addClass('title-current');
+        }, totalTime);
+
+        totalTime += PAGE_TRANSITION;
+        setTimeout(function () {
+            $('#title-img').removeClass('title-next');
+        }, totalTime);
     }());
 });
