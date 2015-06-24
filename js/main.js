@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
         TEXT_SPEED = 100,
         PAGE_TRANSITION = 300,
         PAGE_WAIT = 3000,
-        text = $('#title-text a'),
+        text = $('#title-paragraph'),
         cursor = $('#title-cursor'),
         totalTime = 0,
         BLINK_STEP,
